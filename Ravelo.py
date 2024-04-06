@@ -351,11 +351,7 @@ class MultiTargetQuantumNNRegressor:
     def callback_graph(self, weights, obj_func_eval):
         self.objective_func_vals.append(obj_func_eval)
         self.weights.append(weights)
-        # self.scores.append(self.score(X, y, True))
         print(f"Cost: {obj_func_eval}")
-        # print(f"Score: {self.score(X, y, True)}")
-        # print(f"Weights: {weights}")
-
 
 
 df = pd.read_csv("./Admission_Predict.csv")
