@@ -52,12 +52,24 @@ def createM_hat():
 
 
    
-df = pd.read_csv("./Admission_Predict.csv")
+# df = pd.read_csv("./Admission_Predict.csv")
 
-X = np.array(df.iloc[:,1:-1])
-y = np.array(df.iloc[:,-1])
+# X = np.array(df.iloc[:,1:-1])
+# y = np.array(df.iloc[:,-1])
 
-X, X_test, y, y_test = train_test_split(X, y, test_size=0.36, random_state=42)
+# X, X_test, y, y_test = train_test_split(X, y, test_size=0.36, random_state=42)
+
+X = np.array([[-0.32741112, -0.11288069,  0.49650164],
+       [-0.94268847, -0.78149813, -0.49440176],
+       [ 0.68523899,  0.61829019, -1.32935529],
+       [-1.25647971, -0.14910498, -0.25044557],
+       [ 1.66252391, -0.78480779,  1.79644309],
+       [ 0.42989295,  0.45376306,  0.21658276],
+       [-0.61965493, -0.39914738, -0.33494265],
+       [-0.54552144,  1.85889336,  0.67628493]])
+
+y = np.array([ -8.02307406, -23.10019118,  16.79149797, -30.78951577,
+        40.73946101,  10.53434892, -15.18438779, -13.3677773 ])
 
 l = len(X) #Rows
 m = len(X[0]) + 1 #Columns (including label)
@@ -156,6 +168,12 @@ init.insert(0, 3 * np.pi / 4, ) #Initial parameters
 bounds = [(-np.pi, np.pi)] * (2 ** N_M - 1)
 bounds.insert(0, ( np.pi / 2, 3 * np.pi / 2))
 bounds = tuple(bounds) #Bounds
+
+original_qnode = qml.QNode(qn, dev)
+
+print(qml.draw(original_qnode, expansion_strategy="device")(init, all_U_k[iteration % numBatches]))
+
+exit()
 
 res = optimize.minimize(fun = calc_expval, x0 = init, method = 'Nelder-Mead', options={'maxiter' : 600, 'disp': True}, bounds = bounds, tol=1e-6)
 print(res.x)
